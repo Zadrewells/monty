@@ -1,12 +1,12 @@
 #include "monty.h"
 
 /**
- * _div - Function that divides top values
+ * _mod - Function that mod top values
  * @stack: stack structure
  * @line_number: Number of instructions
  */
 
-void _div(stack_t **stack, unsigned int line_number)
+void _mod(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp = NULL;
 	int n;
@@ -14,7 +14,7 @@ void _div(stack_t **stack, unsigned int line_number)
 	n = stack_len(*stack);
 	if (n < 2)
 	{
-		fprintf(stderr, "L%d: can't div, stack too short\n", line_number);
+		fprintf(stderr, "L%d: can't mod, stack too short\n", line_number);
 		if (list_opcode != NULL)
 			free_list_opcode(list_opcode);
 		if (*stack != NULL)
@@ -32,6 +32,6 @@ void _div(stack_t **stack, unsigned int line_number)
 	}
 
 	temp = *stack;
-	temp->next->n /= temp->n;
+	temp->next->n %= temp->n;
 	pop(stack, line_number);
 }
