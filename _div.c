@@ -1,37 +1,40 @@
 #include "monty.h"
-
 /**
- * _div - Function that divides top values
- * @stack: stack structure
- * @line_number: Number of instructions
- */
-
-void _div(stack_t **stack, unsigned int line_number)
+ * f_div - divides the top two elements of the stack.
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void f_div(stack_t **head, unsigned int counter)
 {
-	stack_t *temp = NULL;
-	int n;
+	stack_t *h;
+	int len = 0, aux;
 
-	n = stack_len(*stack);
-	if (n < 2)
+	h = *head;
+	while (h)
 	{
-		fprintf(stderr, "L%d: can't div, stack too short\n", line_number);
-		if (list_opcode != NULL)
-			free_list_opcode(list_opcode);
-		if (*stack != NULL)
-			free_list_stack(*stack);
+		h = h->next;
+		len++;
+	}
+	if (len < 2)
+	{
+		fprintf(stderr, "L%d: can't div, stack too short\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
-	if ((*stack)->n == 0)
+	h = *head;
+	if (h->n == 0)
 	{
-		fprintf(stderr, "L%d: division by zero\n", line_number);
-		if (list_opcode != NULL)
-			free_list_opcode(list_opcode);
-		if (*stack != NULL)
-			free_list_stack(*stack);
+		fprintf(stderr, "L%d: division by zero\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
-
-	temp = *stack;
-	temp->next->n /= temp->n;
-	pop(stack, line_number);
+	aux = h->next->n / h->n;
+	h->next->n = aux;
+	*head = h->next;
+	free(h);
 }
